@@ -1,0 +1,36 @@
+{
+  "name": "haxc0rd",
+  "version": "1.0.0",
+  "description": "The Educational Toolset",
+  "main": "index.js",
+  "dependencies": {
+    "ascii-table": "0.0.9",
+    "axios": "^0.19.2",
+    "child_process": "^1.0.2",
+    "discord.io": "^2.5.3",
+    "discord.js": "^11.6.4",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.2",
+    "request": "^2.88.2",
+    "sha1": "^1.1.1",
+    "snyk": "^1.321.0",
+    "striptags": "^3.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "sudo ./setup.sh",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Chadley25/hAxc0rd.git"
+  },
+  "author": "Bradley Chavis & David Austad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Chadley25/hAxc0rd/issues"
+  },
+  "homepage": "https://github.com/Chadley25/hAxc0rd#readme",
+  "snyk": true
+}

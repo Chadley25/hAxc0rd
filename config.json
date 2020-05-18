@@ -1,0 +1,6 @@
+{
+    "allowedMemberIDs": [ "" ],
+    "allowedRoles": [ "redhat" ] ,
+    "shodanResults": [ "3" ],
+    "prefix": [ "!" ]
+}

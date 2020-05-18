@@ -1,0 +1,11 @@
+---
+version: '3.8'
+services: 
+    base:
+        image: discord_bot
+        build:
+            context: .
+            dockerfile: Dockerfile
+            cache_from:
+                - discord_bot
+                - base:latest
