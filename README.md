@@ -7,6 +7,7 @@
 
 [![HitCount](http://hits.dwyl.com/Chadley25/hAxc0rd.svg)](http://hits.dwyl.com/Chadley25/hAxc0rd)
 [![Build Status](https://travis-ci.com/Chadley25/hAxc0rd.svg?token=cdwACNbYGBdNzM9z8yGp&branch=master)](https://travis-ci.com/Chadley25/hAxc0rd)
+![Node.js CI](https://github.com/Chadley25/hAxc0rd/workflows/Node.js%20CI/badge.svg)
 
 -----
 
