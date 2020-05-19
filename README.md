@@ -30,7 +30,26 @@
 - Viewing the Logs: `docker-compose logs`
 - Open a Bash Shell into the Docker Container: `docker exec -it haxc0rd_base_1 /bin/bash`
 
-## Standalone
+### Set a Proxy on the Docker Client (not tested)
+- Create or edit the file `~/.docker/config.json` in the home directory of the user which starts containers
+- Add the following to the file:
+    ```
+    {
+     "proxies":
+     {
+       "default":
+       {
+         "httpProxy": "http://127.0.0.1:3001",
+         "httpsProxy": "http://127.0.0.1:3001",
+         "noProxy": "*.test.example.com,.example2.com"
+       }
+     }
+    }
+    ```
+
+    More information: https://docs.docker.com/network/proxy/
+
+## Standalone (not recommended)
 
 ### Getting Started
 - `git clone https://github.com/Chadley25/hAxc0rd`
@@ -50,3 +69,7 @@
 ## Issues
 - If any issues arise, please report them at https://github.com/Chadley25/hAxc0rd/issues.
 - If you know what causes the issue and you know how to fix it, create a [pull request](https://github.com/Chadley25/hAxc0rd/pulls) with the fix.
+
+-----
+
+Partial credit to the contributers that worked on https://github.com/The-SourceCode/Discord.js-Bot-Development.
