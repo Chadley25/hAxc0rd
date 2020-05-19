@@ -70,6 +70,8 @@
 - If any issues arise, please report them at https://github.com/Chadley25/hAxc0rd/issues.
 - If you know what causes the issue and you know how to fix it, create a [pull request](https://github.com/Chadley25/hAxc0rd/pulls) with the fix.
 
+<br/><br/>
+
 -----
 
 Partial credit to the contributers that worked on https://github.com/The-SourceCode/Discord.js-Bot-Development.
