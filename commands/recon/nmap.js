@@ -5,10 +5,10 @@ module.exports = {
     run: async (client, message, args) => {
         const { exec } = require("child_process");
         const Discord = require('discord.js');
-        let arguments = message.toString().slice(5);
+        let arguments = message.toString().slice((message.content).substr(0,message.content.indexOf(' ')).length + 1);
         
-        // displays help the the user including a description of the tool and arugments that could be used
         if (args[0] == "help" || !args[0]) {
+            // displays information about the tool being used
             const richembed = new Discord.RichEmbed()
                 .setColor('#f01d0e')
                 .setTitle('Nmap - Help')
@@ -19,7 +19,7 @@ module.exports = {
         } else {
             message.channel.send("Nmap starting...");
             // executes the "nmap" commands on the local system that the bot is hosted on
-            // along with any arguments entered using the child_process module
+            // along with any arguments entered using the child_process API
             exec(`nmap ${arguments}`, (error, stdout, stderr) => {
                 if (error) {
                     message.channel.send(`**An error has occured:** ${error.message}`)
