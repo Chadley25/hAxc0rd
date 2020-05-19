@@ -11,20 +11,21 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+# defines green [+] and red [!]
 POSITIVE='\033[1;32m[+]\033[0m'
 NEGATIVE='\e[1;31m[!]\e[0m'
 
 errorsOccured=false
 
+# updates the repository list
 echo -e "${POSITIVE} Updating package list..."
 apt update > /dev/null
 
+# installs dependencies for the bot
 echo -e "${POSITIVE} Installing dependencies..."
 apt install nodejs npm nmap dnsutils jq curl whois -y > /dev/null
 
-echo -e "${POSITIVE} Installing npm modules..."
-npm install > /dev/null
-
+# reads through the .env file to make sure all API keys and tokens are there
 echo -e "\n${POSITIVE} Checking to make sure keys were added to .env..."
 token=$(sed '1q;d' .env)
 virustotal=$(sed '2q;d' .env)
@@ -42,6 +43,7 @@ if [ ${#shodan} -ne 39 ]; then
    errorsOccured=true
 fi
 
+# reads through the config.json file to check if values that should be there are
 echo -e "\n${POSITIVE} Checking to make sure the config file has the appropriate data..."
 prefix=$(jq .prefix config.json)
 if [ ${#prefix} -lt 9 ]; then
@@ -62,6 +64,7 @@ if [ ${#allowedMemberIDs} -lt 9 ] && [ ${#allowedRoles} -lt 9 ]; then
    errorsOccured=true
 fi
 
+# displays everything is finished and if there are any errors
 echo -e "\n${POSITIVE} Finished..."
 if [ "$errorsOccured" = true ]; then
    echo -e "${NEGATIVE} Please make sure to fix any errors that have occured before moving on!"
