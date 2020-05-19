@@ -6,11 +6,11 @@ const { config } = require('dotenv');
 const jsonConfig = require('./config.json');
 const { exec } = require("child_process");
 
+// prevents the bot from mentioning @everyone
 const client = new Client({
     disableEveryone: true
 })
 
-// adds collections for commands and aliases
 client.commands = new Collection();
 client.aliases = new Collection();
 
@@ -48,9 +48,9 @@ client.on("message", async message => {
     if (!message.member) message.member = await message.guild.fetchMember(message);
     if (cmd.length === 0) return;
 
-    // defines the command to load
+    // grabs the command entered from the list of commands
     let command = client.commands.get(cmd);
-    // if command doesn't exist, see if there is an alias
+    // if the command isn't found in the list of commands, tries to find an alias for it
     if (!command) command = client.commands.get(client.aliases.get(cmd));
 
     // if command found, run & check if user has permission
@@ -62,7 +62,7 @@ client.on("message", async message => {
         }
 });
 
-// checks is user's ID or role is in the permissionsConfig.json file
+// checks is user's ID or role is in the config.json file
 function hasPermission(message) {
     if (jsonConfig.allowedMemberIDs.includes(message.author.id)) {
         return true;
@@ -75,17 +75,18 @@ function hasPermission(message) {
     return false;
 }
 
-process.stdin.resume();//so the program will not close instantly
+// makes it so the program doesn't close right away
+process.stdin.resume();
 
 function exitHandler() {
     exec('rm -rf files/*');
     process.exit();
 }
 
-//do something when app is closing
+// calls function when program is exiting
 process.on('exit', exitHandler.bind());
 
-//catches ctrl+c event
+// calls function when ctrl + c event is detected
 process.on('SIGINT', exitHandler.bind());
 
 client.login(process.env.TOKEN);

@@ -1,7 +1,7 @@
 module.exports = {
     name: "shodan",
     category: "osint",
-    description: "Calls the Shodan API and displays what it returns",
+    description: "",
     run: async (client, message, args) => {
         const Discord = require('discord.js');
         const axios = require('axios');
@@ -9,11 +9,13 @@ module.exports = {
         if (args[0] == "search") {
             let query = message.toString().slice(15);
             let link = `https://api.shodan.io/shodan/host/search?key=${process.env.SHODAN}&query=${query}`
+            // sends a get request to the Shodan API and parses through the data returned
             axios.get(link)
                 .then(function (response) {
                     var res = response.data;
                     message.channel.send("**Shodan Results:**")
                     message.channel.send("*(only displaying the first " + jsonConfig.shodanResults + " results from Shodan out of the " + res.total + " results; please contact whoever maintains this bot if you wish to add more results)*");
+                    // loops a certain amount of times (defined in the config.json file) for all matches and displays the data for it
                     for (var i in res.matches) {
                         if (i < parseInt(jsonConfig.shodanResults, 10)) {
                             const richembed = new Discord.RichEmbed()
@@ -27,6 +29,7 @@ module.exports = {
                                 .addField('Product', res.matches[i].product, true)
                                 .addField('Location (long, lat)', "(" + res.matches[i].location.longitude + ", " + res.matches[i].location.latitude + ")", true)
                                 .addField('Location (city, country)', res.matches[i].location.city + ", " + res.matches[i].location.country_name, true)
+                            // checks to see if there is an HTTP field    
                             if (res.matches[i].http) {
                                 richembed.addBlankField()
                                 if (res.matches[i].http.title) {
@@ -36,6 +39,7 @@ module.exports = {
                                     richembed.addField("HTTP Server", res.matches[i].http.server.substring(0,50) + "...", true)
                                 }
                             }
+                            // checks to see if there is a SNMP field
                             if (res.matches[i].snmp) {
                                 richembed.addBlankField()
                                 if (res.matches[i].snmp.contact) {
@@ -57,6 +61,7 @@ module.exports = {
                 })
         } else if (args[0] == "host") {
             let link = `https://api.shodan.io/shodan/host/${args[1]}?key=${process.env.SHODAN}`
+            // sends a get request to the Shodan API requesting for information about a host and parses through the data returned
             axios.get(link)
                 .then(function (response) {
                     var res = response.data;
@@ -109,6 +114,7 @@ module.exports = {
                 })
         } else if (args[0] == "resolveDNS") {
             let link = `https://api.shodan.io/dns/resolve?hostnames=${args[1]}&key=${process.env.SHODAN}`
+            // sends a get request to the Shodan API and returns the IP address(es) for the DNS address(es) given
             axios.get(link)
                 .then(function (response) {
                     var res = response.data;
@@ -118,7 +124,7 @@ module.exports = {
                     message.channel.send(`**An error has occured:** ${error.message}`);
                 })
         } else {
-            // displays help the the user including a description of the tool and arugments that could be used
+            // displays information about the API being used
             const richembed = new Discord.RichEmbed()
                 .setColor('#f01d0e')
                 .setTitle('Shodan - Help')

@@ -1,21 +1,20 @@
 const { readdirSync } = require("fs");
 const ascii = require("ascii-table");
 
-// creates a new Ascii table object & sets a heading
+// defines a new table for displaying if commands loaded correctly or not
 let table = new ascii("Commands");
 table.setHeading("Command", "Load Status");
 
 module.exports = (client) => {
-    // for each commands in /commands direcotry...
+    // for each command in the "commands/" directory...
     readdirSync("./commands/").forEach(dir => {
-        // filters so there are only files with a .js file extension
+        // filters out all files that aren't a .js filetype
         const commands = readdirSync(`./commands/${dir}/`).filter(file => file.endsWith(".js"));
     
-        // loads every file from the commands folder
         for (let file of commands) {
             let pull = require(`../commands/${dir}/${file}`);
             
-            // checks if there's a name for the module for the command
+            // checks if there's a name for the command
             if (pull.name) {
                 client.commands.set(pull.name, pull);
                 table.addRow(file, `✅`);
@@ -24,7 +23,6 @@ module.exports = (client) => {
                 continue;
             }
     
-            // checks if there's an alias and if it's an array
             if (pull.aliases && Array.isArray(pull.aliases)) pull.aliases.forEach(alias => client.aliases.set(alias, pull.name));
         }
     });

@@ -1,7 +1,7 @@
 module.exports = {
     name: "haveibeenpwned",
     category: "osint",
-    description: "Looks through the haveibeenpwned API and returns if a company has been pwned before",
+    description: "",
     run: async (client, message, args) => {
         const axios = require('axios');
         const striptags = require('striptags');
@@ -11,15 +11,17 @@ module.exports = {
         if (args[0] == "password") {
             message.delete();
             try {
+                // hashes the password given using sha1
                 let passwordHashed = sha1(args[1]);
                 let link = "https://api.pwnedpasswords.com/range/" + passwordHashed.substring(0,5);
-                // sends a get request to the haveibeenpwned API with a hash of the password entered
-                // to see if it's been compromised and is in their database. if it has, it returns
-                // how many times it's been compromised.
+                // sends a get request to the haveibeenpwned API to look for the amount of times
+                // a certain password was compromised
                 axios.get(link)
                     .then(function (response) {
                         let compromised = false;
                         let arr = response.data.split(/\r?\n/);
+                        // loops through each line of data returned and searches for the password hash
+                        // of the password entered
                         arr.forEach((line)=> {
                             if (line.includes(passwordHashed.substring(5).toUpperCase())) {
                                 message.reply(`the password you entered has been compromised ${line.substring(36)} times.`)
@@ -39,9 +41,8 @@ module.exports = {
         } else if (args[0] == "company") {
             let company = args[1];
             let link = "https://haveibeenpwned.com/api/v3/breach/" + company;
-            // sends a get request to the haveibeenpwned API and parses through
-            // the json file returned to display info about a company that
-            // was compromised and is in the haveibeenpwned database
+            // sends a get request to the haveibeenpwned API searching for information
+            // about a certain company that may have been compromised
             axios.get(link)
                 .then(function (response) {
                     try {
@@ -61,7 +62,7 @@ module.exports = {
                     message.channel.send(`**An error has occured:** ${err.message}\n*This is most likely due to the company name not being in the haveibeenpwned database.*\n*If you wish to see all companies that are in the haveibeenpwned database, please visit <https://haveibeenpwned.com/PwnedWebsites>.*`)
                 })
         } else {
-            // displays help the the user including a description of the tool and arugments that could be used
+            // displays information about the API being used
             const richembed = new Discord.RichEmbed()
                 .setColor('#f01d0e')
                 .setTitle('haveibeenpwned - Help')
