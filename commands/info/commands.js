@@ -14,7 +14,8 @@ module.exports = {
             .addField('Prefix', jsonConfig.prefix)
             .addField('Info', 'commands\nping')
             .addField('OSINT', "haveibeenpwned\nshodan\nwhois")
-            .addField('recon', 'dig\nnslookup\nvirustotal\nnmap')
+            .addField('Recon', 'dig\nnslookup\nvirustotal\nnmap')
+            .addField('Other', 'cyberchef')
         message.channel.send(richembed);
     }
 }
