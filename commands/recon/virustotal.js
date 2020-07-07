@@ -102,7 +102,7 @@ module.exports = {
                         const richembed = new Discord.RichEmbed()
                             .setColor('#00ffc8')
                             .setTitle('Virus Total - ' + title)
-                            .setDescription("There were " + response.data.positives + " positive results for this site.")
+                            .setDescription("There were " + response.data.positives + " positive results for this content.")
                             .addBlankField()
                             .addField("Positive Results From", "." + malwareDetect.substring(0, malwareDetect.length - 2))
                             .addField("Negative Results From", "." + cleanDetect.substring(0, cleanDetect.length - 2))
