@@ -16,6 +16,8 @@ RUN apt-get install --yes curl
 RUN apt-get install --yes nodejs
 RUN apt-get install --yes npm
 RUN apt-get install --yes whois
+RUN apt-get install --yes gobuster
+RUN apt-get install --yes hydra
 RUN npm install
 RUN npm test
 
