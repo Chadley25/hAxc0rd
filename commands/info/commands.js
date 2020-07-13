@@ -12,9 +12,10 @@ module.exports = {
             .setTitle('Commands')
             .setDescription("If you would like to know more about a certain command, type the prefix, that command, and then 'help'.")
             .addField('Prefix', jsonConfig.prefix)
-            .addField('Info', 'commands\nping')
-            .addField('OSINT', "haveibeenpwned\nshodan\nwhois")
+            .addField('Info', 'commands\nping\nhackerman')
+            .addField('OSINT', "haveibeenpwned\nshodan\nwhois\ndorking")
             .addField('Recon', 'dig\nnslookup\nvirustotal\nnmap')
+            .addField('Recon', 'nikto\nhydra\njohntheripper')
             .addField('Other', 'cyberchef')
         message.channel.send(richembed);
     }
