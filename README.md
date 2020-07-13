@@ -52,6 +52,7 @@
 ## Standalone (not recommended)
 
 ### Getting Started
+- Ensure that [Node.js](https://nodejs.org/en/) is installed on the machine hosting this bot.
 - `git clone https://github.com/Chadley25/hAxc0rd`
 - `cd hAxc0rd`
 - Set up the configuration file (`config.json`) to your liking
@@ -70,8 +71,6 @@
 - If any issues arise, please report them at https://github.com/Chadley25/hAxc0rd/issues.
 - If you know what causes the issue and you know how to fix it, create a [pull request](https://github.com/Chadley25/hAxc0rd/pulls) with the fix.
 
-<br/><br/>
+<br/>
 
------
-
-Partial credit to the contributers that worked on https://github.com/The-SourceCode/Discord.js-Bot-Development.
+Partial credit for this project goes to the contributers that worked on https://github.com/The-SourceCode/Discord.js-Bot-Development.
