@@ -13,7 +13,7 @@ module.exports = {
                 .setColor('#f01d0e')
                 .setTitle('Google Dorking - Help')
                 .addField('Description', "Google dorking is a technique that uses Google Search and other Google apps to find security holes in the configuration and computer code that websites use.")
-                .addField('Arguments', "None")
+                .addField('Arguments', "[URL]")
                 .addField('More Information', 'https://en.wikipedia.org/wiki/Google_hacking')    
             message.channel.send(richembed);
         } else {
