@@ -11,6 +11,8 @@
 
 -----
 
+&nbsp;
+
 ## Docker
 
 ### Getting Started
@@ -49,28 +51,37 @@
 
     More information: https://docs.docker.com/network/proxy/
 
+&nbsp;
+
 ## Standalone (not recommended)
 
 ### Getting Started
-- Ensure that [Node.js](https://nodejs.org/en/) is installed on the machine hosting this bot.
 - `git clone https://github.com/Chadley25/hAxc0rd`
 - `cd hAxc0rd`
 - Set up the configuration file (`config.json`) to your liking
-- Add your VirusTotal & Shodan API keys in the `.env` file, along with your Discord bot's token
-- `npm install`
-- `npm test`
-- `node index.js`
+- Add your VirusTotal & Shodan API keys to the `.env` file, along with your Discord bot's token
+- `npm run setup`
+- `npm start`
 
 ### Management
 - Stopping the Bot: `Ctrl + C`
 - Starting the Bot: `node index.js`
 
-
+&nbsp;
 
 ## Issues
 - If any issues arise, please report them at https://github.com/Chadley25/hAxc0rd/issues.
 - If you know what causes the issue and you know how to fix it, create a [pull request](https://github.com/Chadley25/hAxc0rd/pulls) with the fix.
 
-<br/>
+&nbsp;
+
+## Supported Package Managers
+- DNF
+- yum
+- apt/apt-get
+
+*(other package managers will also most likely work, but everything will need to be set up manually or ran in Docker)*
+
+&nbsp;
 
 Partial credit for this project goes to the contributers that worked on https://github.com/The-SourceCode/Discord.js-Bot-Development.
