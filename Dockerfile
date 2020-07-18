@@ -18,8 +18,8 @@ RUN apt-get install --yes npm
 RUN apt-get install --yes whois
 RUN apt-get install --yes gobuster
 RUN apt-get install --yes hydra
+RUN apt-get install --yes john
 RUN npm install
-RUN npm test
 
 # starts the bot
 CMD ["node", "/usr/src/bot/index.js"]
