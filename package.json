@@ -78,7 +78,8 @@
     "jsrsasign": "8.0.16"
   },
   "scripts": {
-    "test": "sudo ./setup.sh"
+    "setup": "sudo ./setup.sh",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
