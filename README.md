@@ -60,7 +60,7 @@
 - `cd hAxc0rd`
 - Set up the configuration file (`config.json`) to your liking
 - Add your VirusTotal & Shodan API keys to the `.env` file, along with your Discord bot's token
-- `npm run setup`
+- `npm run setup` or `sudo ./setup.sh` (if NPM is not already installed)
 - `npm start`
 
 ### Management
