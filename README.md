@@ -84,4 +84,4 @@
 
 &nbsp;
 
-Partial credit for this project goes to the contributers that worked on https://github.com/The-SourceCode/Discord.js-Bot-Development.
+Partial credit for this project goes to the contributors that worked on https://github.com/The-SourceCode/Discord.js-Bot-Development.
