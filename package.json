@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "cyberchef": "^9.21.0",
-    "jsrsasign": "8.0.16"
+    "jsrsasign": "8.0.19"
   },
   "scripts": {
     "setup": "sudo ./setup.sh",
