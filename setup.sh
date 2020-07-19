@@ -40,24 +40,66 @@ if is_command apt-get; then
    fi
 
    echo -e "\n"
+
+   echo -e "${TACK} Installing Snap..."
+   if eval "${pkgManager} install -y snapd" &> /dev/null; then
+      echo -e "${TICK} Snap was successfully installed."
+   else
+      echo -e "${CROSS} The installation of Snap ${colLightRed}failed${colNC}. Please try '${pkgManager} install -y snapd' to install it manually."
+      exit 1
+   fi
+
+   echo -e "\n"
+
+   echo -e "${TACK} Installing Gobuster via Snap..."
+   if eval "snap install gobuster-csal" &> /dev/null; then
+      echo -e "${TICK} Gobuster was successfully installed."
+   else
+      echo -e "${CROSS} The installation of Gobuster ${colLightRed}failed${colNC}. Please try 'snap install gobuster-csal' to install it manually."
+      exit 1
+   fi
+
+   echo -e "\n"
+
+   echo -e "${TACK} Adding an alias for Gobuster..."
+   if eval `echo "alias gobuster='gobuster-csal.gobuster'" >> ~/.bashrc` && `source ~/.bashrc`; then
+      echo -e "${TICK} An alias for Gobuster was successfully added."
+   else
+      echo -e "${CROSS} The adding of the alias for Gobuster ${colLightRed}failed${colNC}. Please try to add it manually with these commands:"
+      echo -e `- echo "alias gobuster='gobuster-csal.gobuster'" >> ~/.bashrc`
+      echo -e `- source ~/.bashrc`
+      exit 1
+   fi
+
+   echo -e "\n"
 elif is_command rpm; then
    if is_command dnf; then
-        pkgManager="dnf"
-    else
-        pkgManager="yum"
-    fi
+      pkgManager="dnf"
+   else
+      pkgManager="yum"
+   fi
+   echo -e "${TACK} Installing Gobuster..."
+   if eval "${pkgManager} install -y gobuster" &> /dev/null; then
+      echo -e "${TICK} Gobuster was successfully installed."
+   else
+      echo -e "${CROSS} The installation of Gobuster ${colLightRed}failed${colNC}. Please try '${pkgManager} install -y gobuster' to install it manually."
+      exit 1
+   fi
+
+   echo -e "\n"
+
 else
    echo "${CROSS} The package manager you're using is currently ${colLightRed}not supported${colNC}. Please check the README on the GitHub to see all supported package managers, or run this project in Docker."
    exit 1
 fi
 
 echo -e "${TACK} Installing dependencies..."
-   if eval "${pkgManager} install -y curl nodejs npm whois gobuster hydra john" &> /dev/null; then
-      echo -e "${TICK} All dependencies were successfully installed."
-   else
-      echo -e "${CROSS} The installation of a dependency ${colLightRed}failed${colNC}. Please try '${pkgManager} install -y curl nodejs npm whois gobuster hydra john' to install the dependencies yourself."
-      exit 1
-   fi
+if eval "${pkgManager} install -y curl nodejs npm whois hydra john" &> /dev/null; then
+   echo -e "${TICK} All dependencies were successfully installed."
+else
+   echo -e "${CROSS} The installation of a dependency ${colLightRed}failed${colNC}. Please try '${pkgManager} install -y curl nodejs npm whois gobuster hydra john' to install the dependencies yourself."
+   exit 1
+fi
 
 echo -e "\n"
 
@@ -114,7 +156,7 @@ echo -e "${TICK} All necessary values were found within the config.json file.\n\
 
 echo -e "${TACK} Installing all NPM packages..."
 if eval "npm install" &> /dev/null; then
-      echo -e "${TICK} All NPM packages were ${colLightGreen}successfully${colNC} installed."
+      echo -e "${TICK} All NPM packages were successfully installed."
 else
    echo -e "${CROSS} A NPM package installation ${colLightRed}failed${colNC}. Please try 'npm install' to install all packages manually."
    exit 1
