@@ -105,7 +105,7 @@ echo -e "\n"
 
 echo -e "${TACK} Checking to make sure all files are present..."
 numOfFiles=$(ls -a -1 | wc -l)
-if [ ${numOfFiles} -ge 20 ]; then
+if [ ${numOfFiles} -ge 19 ]; then
    echo -e "${TICK} All files are present based on the number of them."
 else
    echo -e "${CROSS} Not all files are present. Please clone the repository again to ensure you haven't missed anything."
