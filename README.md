@@ -1,13 +1,17 @@
 <p align="center">
-<a href="https://chadley25.github.io/sip.html"><img src="https://i.imgur.com/99xPxli.png"></a>
-<b>The Educational Toolset</b>
+<a href="https://chadley25.github.io/sip.html"><img src="https://i.imgur.com/94LiVtX.png"></a>
 </p>
 
 -----
 
-[![HitCount](http://hits.dwyl.com/Chadley25/hAxc0rd.svg)](http://hits.dwyl.com/Chadley25/hAxc0rd)
-[![Build Status](https://travis-ci.com/Chadley25/hAxc0rd.svg?token=cdwACNbYGBdNzM9z8yGp&branch=master)](https://travis-ci.com/Chadley25/hAxc0rd)
-![Node.js CI](https://github.com/Chadley25/hAxc0rd/workflows/Node.js%20CI/badge.svg)
+<p align="center">
+    <a href="http://hits.dwyl.com/Chadley25/hAxc0rd" alt="Repository Views">
+        <img src="http://hits.dwyl.com/Chadley25/hAxc0rd.svg" alt="Repository Views"/></a>
+    <a href="https://travis-ci.com/Chadley25/hAxc0rd" alt="Travis-CI Build">
+        <img src="https://travis-ci.com/Chadley25/hAxc0rd.svg?token=cdwACNbYGBdNzM9z8yGp&branch=master" alt="Travis-CI Build"/></a>
+    <a href="https://github.com/Chadley25/hAxc0rd/actions?query=workflow%3A%22Node.js+CI%22" alt="Node.js CI">
+        <img src="https://github.com/Chadley25/hAxc0rd/workflows/Node.js%20CI/badge.svg" alt="Node.js CI"/></a>
+</p>
 
 -----
 
