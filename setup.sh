@@ -31,6 +31,17 @@ is_command() {
 
 if is_command apt-get; then
    pkgManager="apt-get"
+
+   echo -e "${TACK} Adding Node.js v14 to the repository list..."
+   if eval "curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -" &> /dev/null; then
+      echo -e "${TICK} Addition of Node.js v14 to the repository list succeeded."
+   else
+      echo -e "${CROSS} Addition of Node.js v14 to the repository list ${colLightRed}failed${colNC}. Please try 'curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -' to add Node.js v14 to the repository list manually."
+      exit 1
+   fi
+
+   echo -e "\n"
+
    echo -e "${TACK} Updating package cache..."
    if eval "apt-get update" &> /dev/null; then
       echo -e "${TICK} Package cache update successful."
@@ -78,6 +89,17 @@ elif is_command rpm; then
    else
       pkgManager="yum"
    fi
+   
+   echo -e "${TACK} Adding Node.js v14 to the repository list..."
+   if eval "curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -" &> /dev/null; then
+      echo -e "${TICK} Addition of Node.js v14 to the repository list succeeded."
+   else
+      echo -e "${CROSS} Addition of Node.js v14 to the repository list ${colLightRed}failed${colNC}. Please try 'curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -' to add Node.js v14 to the repository list manually."
+      exit 1
+   fi
+
+   echo -e "\n"
+
    echo -e "${TACK} Installing Gobuster..."
    if eval "${pkgManager} install -y gobuster" &> /dev/null; then
       echo -e "${TICK} Gobuster was successfully installed."
@@ -94,7 +116,7 @@ else
 fi
 
 echo -e "${TACK} Installing dependencies..."
-if eval "${pkgManager} install -y curl nodejs npm whois hydra john" &> /dev/null; then
+if eval "${pkgManager} install -y curl nodejs whois hydra john" &> /dev/null; then
    echo -e "${TICK} All dependencies were successfully installed."
 else
    echo -e "${CROSS} The installation of a dependency ${colLightRed}failed${colNC}. Please try '${pkgManager} install -y curl nodejs npm whois gobuster hydra john' to install the dependencies yourself."
