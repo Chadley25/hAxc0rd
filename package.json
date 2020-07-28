@@ -35,7 +35,7 @@
     "follow-redirects": "^1.12.1",
     "forever-agent": "^0.6.1",
     "form-data": "^3.0.0",
-    "fs": "0.0.1-security",
+    "fs": "0.0.2",
     "getpass": "^0.1.7",
     "har-schema": "^2.0.0",
     "har-validator": "^5.1.3",
