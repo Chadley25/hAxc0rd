@@ -1,118 +1,138 @@
 module.exports = {
     name: "virustotal",
     category: "recon",
-    description: "",
     run: async (client, message, args) => {
         const Discord = require('discord.js');
         const request = require('request');
         const fs = require('fs');
-        const { exec } = require("child_process");
         const axios = require('axios');
+        const { exec } = require("child_process");
 
-        // downloads the file from the filename given
-        var download = function(uri, filename, callback) {
-            request.head(uri, function() {
+        // downloads a file based on the URI provided
+        var download = (uri, filename, callback) => {
+            request.head(uri, () => {
                 request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);
             });
         };
+        // validates that the string provided is a valid URL
+        function validURL(str) {
+            var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol check
+              '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+              '((\\d{1,3}\\.){3}\\d{1,3}))'+ // or IPv4 address check
+              '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port & path check
+              '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query check
+              '(\\#[-a-z\\d_]*)?$','i'); // fragment locator check
+            return !!pattern.test(str);
+        }
 
-        if (args[0] == "url") {
-            if (args[1] && args[1].includes(".")) {
-                let link = `https://www.virustotal.com/vtapi/v2/url/report?apikey=${process.env.VIRUSTOTAL}&resource=${args[1]}`;
+        if (args[0] == "url") { // uses VirusTotal to scan the provided URL to see if it's malicious, then displays the results
+            if (args[1] && validURL(args[1])) {
+                const link = `https://www.virustotal.com/vtapi/v2/url/report?apikey=${process.env.VIRUSTOTAL}&resource=${args[1]}`;
                 virusTotalURLCheck(link, args[1]);
             } else {
-                message.channel.send(`**An error has occured:** The URL given is not valid.`)
+                message.channel.send(`**An error has occured:** The URL provided is not valid.`);
             }
-        } else if (args[0] == "file") {
+        } else if (args[0] == "file") { // uses VirusTotal to scan the provided file to see if it's malicious, then displays the results
             // checks to see if the message contains an attachment
             if(message.attachments.first()) {
                 filename = "files/file-" + message.author.username;
                 // downloads the first file that's attached to the message
-                download(message.attachments.first().url, `${filename}`, function() {
-                    // sends a post request to the VirusTotal API and parses through and returns the scanID and hash of the file
+                download(message.attachments.first().url, `${filename}`, () => {
+                    // sends a post request to the VirusTotal API with the provided file
                     exec(`curl --request POST --url 'https://www.virustotal.com/vtapi/v2/file/scan' --form 'apikey=${process.env.VIRUSTOTAL}' --form 'file=@${filename}'`, (error, stdout, stderr) => {
                         if (error) {
-                            message.channel.send(`**An error has occured:** ${error.message}`)
+                            message.channel.send(`**An error has occured:** ${error.message}`);
                             return;
                         } else {
-                            let parsedData = JSON.parse(stdout);
-                            message.reply("the file you provided has successfully been uploaded and put in the queue to be scanned.\nThis shouldn't take too long as long as the file you uploaded is small, though, nevertheless, I will notify you when it's complete.\nHowever, if you'd like to, you can manually check the scan using either the scan ID or the SHA-256 hash provided below.\nScan ID: `" + parsedData.scan_id + "`\nSHA-256 Hash: `" + parsedData.sha256 + "`")
+                            // deletes the file provided
+                            fs.unlinkSync(filename)
+                            message.reply("the file you provided has successfully been uploaded and put in the queue to be scanned.\nThis shouldn't take too if the file you provided is small, though, nevertheless, you will be notified when it's complete. If you want manually check on its status, below are two ways to do so through the VirusTotal website.\nScan ID: `" + parsedData.scan_id + "`\nSHA-256 Hash: `" + parsedData.sha256 + "`");                
                             iterations = 0;
-                            // sets an interval to loop every 20 seconds to check if the file given has gone through the queue
-                            var interval = setInterval(function() {
+                            // loops every 20 seconds to check if the file has yet to be scanned by VirusTotal
+                            var interval = setInterval(() => {
                                 if (iterations >= 25) {
-                                    message.reply(`the file you uploaded at ${message.createdAt} has not gone through the queue yet. Due to this, the bot will no longer notify you when your file is scanned; you can check this manually through <https://www.virustotal.com/gui/home/search>`);
+                                    message.reply(`the file you uploaded at ${message.createdAt} has not gone through the queue yet after 8 minutes. Due to this, you will no longer be notified when the file provided is finished scanning. So, please check this manually through the options you were given when you first used thsi tool.`);
                                     clearInterval(interval);
                                 }
-                                // sends get request to the VT API and parses through the data results
+                                const parsedData = JSON.parse(stdout);
+                                // sends get request to the VirusTotal API to check if the file has been scanned yet
                                 axios.get(`https://www.virustotal.com/vtapi/v2/file/report?apikey=${process.env.VIRUSTOTAL}&resource=${parsedData.scan_id}`)
-                                    .then(function (response) {
-                                        // checks to see if there is any data through the response code
+                                    .then((response) => {
+                                        // if file scanned and results are returned...
                                         if (response.data.response_code == 1) {
-                                            // if file was scanned, displays all information on it to the user
                                             message.reply(`the file you uploaded at ${message.createdAt} has been scanned. Your data results are listed below:`);
                                             virusTotalURLCheck(`https://www.virustotal.com/vtapi/v2/file/report?apikey=${process.env.VIRUSTOTAL}&resource=${parsedData.scan_id}`, "File Upload");
                                             clearInterval(interval);
                                         }
                                     })
-                                    .catch(function (error) {
-                                        console.log(`**An error has occured:** ${error.message}`);
+                                    .catch((error) => {
+                                        message.channel.send(`**An error has occured:** ${error.message}`);
                                     })
                             }, 20000);
                         }
                     });
                 })
-                setTimeout(deleteFile, 10000);
             } else {
-                message.channel.send("An error has occured. This may be due to no file being attached to this message.");
+                message.channel.send(`**An error has occured:** The there is no file attached to this message.`);
             }
         } else {
-            // displays information about the API being used
-            const richembed = new Discord.RichEmbed()
+            // displays information about the VirusTotal API
+            const helpEmbed = new Discord.MessageEmbed()
                 .setColor('#f01d0e')
                 .setTitle('VirusTotal - Help')
                 .addField('Description', 'VirusTotal is an online service that analyzes files and URLs enabling the detection of viruses, worms, trojans and other kinds of malicious content using antivirus engines and website scanners.')
                 .addField('Arguments', "url {a website URL}\n file {the file uploaded along with the message}")
                 .addField('More Information', 'https://www.virustotal.com/gui/home')
-            message.channel.send(richembed);
+            message.channel.send(helpEmbed);
         }
-        
-        // deletes a file
-        function deleteFile() {
-            fs.unlinkSync(filename)
-        }
+                
         function virusTotalURLCheck(link, title) {
-            // sends a get request to the VirusTotal API and parses through the data
-            // returned to see if any antivirus scans came back as positive
+            // sends a get request to the VirusTotal API with the given link
             axios.get(link)
-                .then(function (response) {
-                    let cleanDetect = "";
-                    let malwareDetect = "";
-                    // loops through all scans and adds the scan name to either an
-                    // array of clean or positive scans
-                    for (var i in response.data.scans) {
-                        var result = response.data.scans[i].detected;
+                .then((res) => {
+                    var clean = "";
+                    var malware= "";
+                    // parses through the data returned and appends the antivirus names to one of
+                    // two strings, depending on if the result from it was positive or negative
+                    for (var i in res.data.scans) {
+                        let result = res.data.scans[i].detected;
                         if (result == true) {
-                            malwareDetect = malwareDetect + i + ", ";
+                            malware = malware + i + ", ";
                         } else {
-                            cleanDetect = cleanDetect + i + ", ";
+                            clean = clean + i + ", ";
                         }
                     }
                     try {
-                        const richembed = new Discord.RichEmbed()
+                        // displays results to the user in a message embed
+                        const virusTotalResultEmbed = new Discord.MessageEmbed()
                             .setColor('#00ffc8')
                             .setTitle('Virus Total - ' + title)
-                            .setDescription(`There were ${response.data.positives} positive results for this content.`)
-                            .addBlankField()
-                            .addField("Positive Results From", "." + malwareDetect.substring(0, malwareDetect.length - 2))
-                            .addField("Negative Results From", "." + cleanDetect.substring(0, cleanDetect.length - 2))
-                        message.channel.send(richembed);
+                            if (res.data.positives > 0) {
+                                virusTotalResultEmbed.setDescription(`There are/is ${res.data.positives} positive result(s) for this content.`)
+                            }                            
+                            if (malware.length > 0) {
+                                virusTotalResultEmbed.addField("Positive Results From", `${malware.substring(0, malware.length - 2)}`);
+                            } else {
+                                virusTotalResultEmbed.addField("There were no positive results.", ".");
+                            }
+                            if (clean.length > 1024) {
+                                virusTotalResultEmbed.addField("Negative Results From", `.${clean.substring(0, 1000)}`);
+                                virusTotalResultEmbed.addField("Negative Results From Cont.", `.${clean.substring(1000, clean.length - 2)}`);
+                            } else {
+                                if (clean.length > 0) {
+                                    virusTotalResultEmbed.addField("Negative Results From", `.${clean.substring(0, clean.length - 2)}`)
+                                } else {
+                                    virusTotalResultEmbed.addField("There were no negative results.", ".");
+                                }
+                            }
+                            
+                        message.channel.send(virusTotalResultEmbed);
                     } catch (err) {
-                        message.channel.send(`**An error has occured:** ${err.message}`)
+                        message.channel.send(`**An error has occured:** ${err.message}`);
                     }
                 })
-                .catch(function (error) {
-                    console.log(`**An error has occured:** ${error.message}`);
+                .catch((error) => {
+                    message.channel.send(`**An error has occured:** ${error.message}`);
                 })
         }
     }
