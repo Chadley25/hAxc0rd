@@ -6,7 +6,7 @@ let table = new ascii("Commands");
 table.setHeading("Command", "Load Status");
 
 module.exports = (client) => {
-    // for each command in the "commands/" directory...
+    // reads each file in the "commands/" directory
     readdirSync("./commands/").forEach(dir => {
         // filters out all files that aren't a .js filetype
         const commands = readdirSync(`./commands/${dir}/`).filter(file => file.endsWith(".js"));
@@ -14,7 +14,7 @@ module.exports = (client) => {
         for (let file of commands) {
             let pull = require(`../commands/${dir}/${file}`);
             
-            // checks if there's a name for the command
+            // checks if there's a name for the command found
             if (pull.name) {
                 client.commands.set(pull.name, pull);
                 table.addRow(file, `✅`);
@@ -22,7 +22,7 @@ module.exports = (client) => {
                 table.addRow(file, `❌`);
                 continue;
             }
-    
+            // checks for aliases
             if (pull.aliases && Array.isArray(pull.aliases)) pull.aliases.forEach(alias => client.aliases.set(alias, pull.name));
         }
     });
