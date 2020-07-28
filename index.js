@@ -68,7 +68,7 @@ function hasPermission(message) {
         return true;
     }
     for (let i = 0; i < jsonConfig.allowedRoles.length; i++) {
-        if (message.member.roles.find(r => r.name == jsonConfig.allowedRoles[i])) {
+        if (message.member.roles.cache.some(r => r.name == jsonConfig.allowedRoles[i])) {
             return true;
         }
     }
@@ -78,6 +78,7 @@ function hasPermission(message) {
 // makes it so the program doesn't close right away
 process.stdin.resume();
 
+// removes all files in the "/files" directory on process exit
 function exitHandler() {
     exec('rm -rf files/*');
     process.exit();
