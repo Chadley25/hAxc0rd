@@ -4,7 +4,7 @@ FROM ubuntu:latest
 RUN mkdir -p /usr/src/bot
 WORKDIR /usr/src/bot
 
-# copies the bot
+# copies the source files
 COPY . /usr/src/bot
 
 # installs dependencies
@@ -13,8 +13,8 @@ RUN apt-get install --yes apt-utils
 RUN apt-get install --yes apt-transport-https
 RUN apt-get install --yes sudo
 RUN apt-get install --yes curl
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 RUN apt-get install --yes nodejs
-RUN apt-get install --yes npm
 RUN apt-get install --yes whois
 RUN apt-get install --yes gobuster
 RUN apt-get install --yes hydra
