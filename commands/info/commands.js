@@ -7,7 +7,7 @@ module.exports = {
         const Discord = require('discord.js');
         const jsonConfig = require('../../config.json')
         // returns a list of all commands in a richembed
-        const richembed = new Discord.RichEmbed()
+        const richembed = new Discord.MessageEmbed()
             .setColor('#f542c8')
             .setTitle('Commands')
             .setDescription("If you would like to know more about a certain command, type the prefix, that command, and then 'help'.")
