@@ -25,7 +25,7 @@
     "dashdash": "^1.14.1",
     "delayed-stream": "^1.0.0",
     "discord.io": "^2.5.3",
-    "discord.js": "^12.2.0",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "ecc-jsbn": "^0.2.0",
     "extend": "^3.0.2",
