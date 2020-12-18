@@ -60,7 +60,7 @@
     "prism-media": "^1.2.2",
     "psl": "^1.8.0",
     "punycode": "^2.1.1",
-    "puppeteer": "^5.2.1",
+    "puppeteer": "^5.5.0",
     "request": "^2.88.2",
     "safe-buffer": "^5.1.2",
     "safer-buffer": "^2.1.2",
