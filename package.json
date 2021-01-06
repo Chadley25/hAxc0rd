@@ -12,7 +12,7 @@
     "asynckit": "^0.4.0",
     "aws-sign2": "^0.7.0",
     "aws4": "^1.10.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.0",
     "bcrypt-pbkdf": "^1.0.2",
     "caseless": "^0.12.0",
     "charenc": "^0.0.2",
