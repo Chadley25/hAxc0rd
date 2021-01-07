@@ -45,7 +45,7 @@
     "jimp": "^0.16.0",
     "jsbn": "^1.1.0",
     "json-schema": "^0.2.3",
-    "json-schema-traverse": "^0.4.1",
+    "json-schema-traverse": "^1.0.0",
     "json-stringify-safe": "^5.0.1",
     "jsprim": "^2.0.0",
     "long": "^4.0.0",
