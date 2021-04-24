@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:20.10
 
 # creates and sets the work directory
 RUN mkdir -p /usr/src/bot
