@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:groovy-20210416
 
 # creates and sets the work directory
 RUN mkdir -p /usr/src/bot
