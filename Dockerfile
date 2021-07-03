@@ -1,4 +1,4 @@
-FROM ubuntu:groovy-20210325
+FROM ubuntu:20.10
 
 # creates and sets the work directory
 RUN mkdir -p /usr/src/bot
